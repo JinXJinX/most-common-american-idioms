@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Most Common American Idioms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        #content {
+            margin: 20px;
+        }
+
+        .sample {
+            margin-top: 30px;
+        }
+
+        #btnNext {
+            position: sticky;
+            width: 100%;
+            bottom: 0;
+            height: 60px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content"></div>
+    <button id="btnNext">Next</button>
+    <script src="book.js"></script>
+    <script>
+        let currentIndex = 0;
+
+        function showNextIdiom() {
+            const index = Math.floor(Math.random() * books.length);
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = '';
+
+            const item = books[index];
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item';
+
+            const title = document.createElement('h2');
+            title.textContent = `${index + 1}. ${item.name}`;
+            itemDiv.appendChild(title);
+
+            const desc = document.createElement('p');
+            desc.textContent = item.desc;
+            itemDiv.appendChild(desc);
+
+            for (let i = 0; i < item.examples.length; i++) {
+                const sampleDiv = document.createElement('div');
+                sampleDiv.className = 'sample';
+                const example = item.examples[i]
+                const title = document.createElement('b');
+                title.innerText = `例句 ${i + 1}`;
+                sampleDiv.appendChild(title);
+
+                const enSentence = document.createElement('p');
+                enSentence.innerText = example.en;
+                sampleDiv.appendChild(enSentence);
+
+                const cnSentence = document.createElement('p');
+                cnSentence.innerText = example.cn;
+                sampleDiv.appendChild(cnSentence);
+
+                const audio = document.createElement('audio');
+                audio.controls = true;
+                const source = document.createElement('source');
+                source.src = example.audio_link;
+                source.type = 'audio/mpeg';
+                audio.appendChild(source);
+                sampleDiv.appendChild(audio);
+                itemDiv.appendChild(sampleDiv);
+            };
+
+            contentDiv.appendChild(itemDiv);
+        }
+
+        document.getElementById('btnNext').addEventListener('click', () => {
+            showNextIdiom();
+        });
+
+        // Display the first item initially
+        showNextIdiom(currentIndex);
+    </script>
+
+</body>
+
+</html>
